@@ -12,8 +12,8 @@ import cStringIO
 
 baseurl = "http://apod.nasa.gov/apod/"
 indexurl = baseurl + "astropix.html"
-regex = "a href=\"(image.*)\""
-imgsize = 520, 520
+regex = r'a href="(image.*)"'
+imgsize = 800, 800
 
 
 def get_apod_image():
