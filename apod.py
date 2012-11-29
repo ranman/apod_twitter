@@ -28,12 +28,11 @@ def get_apod_image():
         img.save("apod.png", "PNG")
     except:
         # not an image or unreachable link
-        print "problem getting image"
+        print "Unexpected Error:", sys.exc_info()[0]
+        raise
     finally:
         #close things here
-        apodpage.close()
         imgfile.close()
-        img.close()
         imgstr.close()
         print "everything closed"
 
