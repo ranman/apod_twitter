@@ -17,7 +17,7 @@ baseurl = "http://apod.nasa.gov/apod/"
 indexurl = baseurl + "astropix.html"
 regex = r'a href="(image.*)"'
 imgsize = 800, 800
-twitterurl = "http://api.twitter.com/1/"
+twitterurl = "http://api.twitter.com/1.1/"
 OAuthHook.consumer_key = ''
 OAuthHook.consumer_secret = ''
 access_token = ''
