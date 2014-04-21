@@ -15,7 +15,7 @@ from requests_oauthlib import OAuth1Session
 baseurl = "http://apod.nasa.gov/apod/"
 indexurl = baseurl + "astropix.html"
 regex = r'a href="(image.*)"'
-imgsize = 800, 800
+imgsize = 800, 800  # ((800**2*12)/8/1024/1024) anything less than 800 is below 800kb
 twitterurl = "https://api.twitter.com/1.1/"
 twitter = OAuth1Session(
     '',
