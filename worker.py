@@ -4,6 +4,7 @@ import requests
 from requests_oauthlib import OAuth1
 import boto.sqs
 from boto.sqs.jsonmessage import JSONMessage
+import cStringIO
 sqs_conn = boto.sqs.connect_to_region("us-east-1")
 q = sqs_conn.get_queue("apod_twitter")
 errorq = sqs_conn.get_queue("apod_twitter_errors")
@@ -16,7 +17,8 @@ auth = OAuth1(
     os.getenv("TWITTER_KEY"),
     os.getenv("TWITTER_SECRET")
 )
-image = bucket.get("apod.png")
+image = cStringIO.StringIO()
+s3_image = bucket.get_key("apod.png").get_contents_to_file(image)
 
 
 def get_messages():
@@ -38,7 +40,6 @@ def process_a_few_messages():
 def update_twitter(message):
     auth.client.resource_owner_key = unicode(message['key'])
     auth.client.resource_owner_secret = unicode(message['secret'])
-    image = open('apod.png', 'rb')  # get this from S3
     response = requests.post(
         url+endpoint,
         params={'tile': True, 'use': True},
