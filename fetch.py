@@ -29,7 +29,7 @@ def get_apod_image():
     img.thumbnail(imgsize, Image.ANTIALIAS)
     imgstr = cStringIO.StringIO()
     img.save(imgstr, "PNG")
-    key.set_contents_from_file(imgstr)
+    key.set_contents_from_file(imgstr, rewind=True)
 
 if __name__ == '__main__':
     get_apod_image()

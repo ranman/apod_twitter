@@ -1,3 +1,4 @@
 pillow
+boto
 flask
 flask-oauthlib

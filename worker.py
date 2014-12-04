@@ -5,6 +5,7 @@ from requests_oauthlib import OAuth1
 import boto.sqs
 from boto.sqs.jsonmessage import JSONMessage
 import cStringIO
+from flask import Flask, request
 sqs_conn = boto.sqs.connect_to_region("us-east-1")
 q = sqs_conn.get_queue("apod_twitter")
 errorq = sqs_conn.get_queue("apod_twitter_errors")
@@ -19,6 +20,10 @@ auth = OAuth1(
 )
 image = cStringIO.StringIO()
 s3_image = bucket.get_key("apod.png").get_contents_to_file(image)
+
+#
+# Batch workflow
+#
 
 
 def get_messages():
@@ -35,6 +40,17 @@ def process_a_few_messages():
         for message in messages:
             update_twitter(message)
         messages = q.get_messages()
+
+#
+# Elastic beanstalk workflow
+#
+
+application = Flask(__name__)
+
+
+@application.route('/')
+def worker():
+    update_twitter(request.args.get('data'))
 
 
 def update_twitter(message):
@@ -53,4 +69,5 @@ def update_twitter(message):
 
 
 if __name__ == '__main__':
-    process_a_few_messages()
+    application.run()
+    # process_a_few_messages()
