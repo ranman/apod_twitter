@@ -2,8 +2,32 @@
 <html>
 <head>
     <title>Twitter APOD</title>
+    <style>
+body {
+    background: url("https://s3.amazonaws.com/apod-twitter/apod.png") repeat right top;
+}
+#apod {
+    text-align: center;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 0px solid #000000;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    color: white;
+}
+    </style>
 </head>
 <body>
-    <a href="/login"><img src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png"></img></a>
+    <div id="apod">
+        <h1>Astonomy Picture Of The Day Twitter Background</h1>
+        <h3>Click the button below and everyday your twitter background will update to the <a href="http://apod.nasa.gov/apod/astropix.html">APOD</a></h3>
+        <a href="/login"><img src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png"></img></a>
+    </div>
 </body>
 </html>

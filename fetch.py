@@ -30,6 +30,7 @@ def get_apod_image():
     imgstr = cStringIO.StringIO()
     img.save(imgstr, "PNG")
     key.set_contents_from_file(imgstr, rewind=True)
+    key.set_acl("public-read")
 
 if __name__ == '__main__':
     get_apod_image()
