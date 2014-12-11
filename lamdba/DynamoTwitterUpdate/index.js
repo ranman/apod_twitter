@@ -9,13 +9,9 @@ var formData = {
     'tile': '1',
     'use': '1'
 };
-function detectImageEvent(record, callback) {
-    if (record.s3.object.key.indexOf("apod.png") > -1) {
-        callback(true);
-    }
-}
 
-function updateTwitterUser(user, callback) {
+function updateTwitterUser(record, callback) {
+    user = record.dynamodb.NewImage;
     var oauth = {
         consumer_key: '',
         consumer_secret: '',
@@ -45,35 +41,22 @@ exports.handler = function(event, context) {
     if (event.Records === null || event.Records === undefined) {
         context.done(null, "bad event");
     }
-    async.detect(event.Records, detectImageEvent, function(result) {
-        if (result !== undefined) {
-            s3.getObject({Bucket: 'apod-twitter', Key: 'apod.png'}, function(err, data) {
-                if (err) {
-                    ctx.done(err, err.stack);
-                }
-                formData.image = {
-                    value: data.Body,
-                    options: {
-                        filename: 'apod.png',
-                        contentType: 'image/png'
-                    }
-                };
-                db.scan({TableName: "users"}, function(err, data) {
-                    if (err === null) {
-                        async.every(data.Items, updateTwitterUser, function(result) {
-                            if (result) {
-                                ctx.done(null, "users updated");
-                            } else {
-                                ctx.done("got into error making request", "got into error making request");
-                            }
-                        });
-                    } else {
-                        ctx.done(err, err.stack);
-                    }
-                });
-            });
-        } else {
-            context.done(null, "no image");
+    s3.getObject({Bucket: 'apod-twitter', Key: 'apod.png'}, function(err, data) {
+        if (err) {
+            ctx.done(err, err.stack);
         }
+        formData.image = {
+            value: data.Body,
+            options: {
+                filename: 'apod.png',
+                contentType: 'image/png'
+            }
+        };
+        async.each(event.Records, updateTwitterUser, function(err) {
+            if (err) {
+                console.log(err);
+                context.done(err, "problem updating user");
+            }
+        });
     });
 };
