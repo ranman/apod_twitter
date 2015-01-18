@@ -63,7 +63,8 @@ def twitter_auth():
 
 @application.route('/')
 def index():
-    return render_template('index.html')
+    username = request.cookies.get('username')
+    return render_template('index.html', username=username)
 
 
 @application.route('/login')

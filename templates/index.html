@@ -29,7 +29,12 @@ h1,h2,h3 {
     <div id="apod">
         <h1>Astonomy Picture Of The Day Twitter Background</h1>
         <h3>Click the button below and everyday your twitter background will update to the <a href="http://apod.nasa.gov/apod/astropix.html">APOD</a></h3>
+        <p>Your twitter background is only visible to you. No one else.</p>
+        {% if username %}
+        <p>Thanks for using APODTwitter {{username}}!</p>
+        {% else %}
         <a href="/login"><img src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png"></img></a>
+        {% endif %}
         <iframe src="http://ghbtns.com/github-btn.html?user=ranman&repo=apod_twitter&type=watch&count=true"
   allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
     </div>
